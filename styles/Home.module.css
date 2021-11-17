@@ -1,0 +1,71 @@
+.container {
+  min-height: 100vh;
+  background-color: black;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  /* padding: 4rem 0; */
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 3rem;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+
+/*           Countdown               */
+
+.countdownContainer {
+  display: flex;
+  justify-content: space-around;
+  padding: 3rem 0;
+}
+
+.countdownContainer .item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.countdownContainer .item span:first-child {
+  font-size: 3rem;
+  padding-bottom: 1rem;
+}
+
+
+/*            Footer                 */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+
+  display: flex;
+  padding: 2rem 0;
+  justify-content: center;
+}
+
+.footer a {
+  display: flex;
+  align-items: center;
+}
+
+.footer .logo {
+  height: 1em;
+  margin-left: 0.5rem;
+}
+
+
+/* @media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+} */
