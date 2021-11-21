@@ -70,10 +70,10 @@
 }
 
 .countdownContainer .item.days {
-  animation: blink linear infinite 3s;
+  /* animation: blink linear infinite 3s; */
 }
 .countdownContainer .item.minutes {
-  animation: blink linear infinite 5s;
+  /* animation: blink linear infinite 5s; */
 }
 
 @keyframes blink {

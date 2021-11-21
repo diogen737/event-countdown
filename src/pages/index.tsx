@@ -1,15 +1,19 @@
+import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic';
 
 import dayjs from 'dayjs'
 
-import styles from '../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
+
+const EventSelector = dynamic(() => import('../components/event-selector'));
 
 
 const Home: NextPage = () => {
-  const [targetDate, setTargetDate] = useState(dayjs().startOf('year').add(1, 'year'));
+  const [eventDate, setEventDate] = useState(dayjs().startOf('year').add(1, 'year'));
+  const [eventName, setEventName] = useState('New Year');
   const [diffD, setDiffD] = useState(0);
   const [diffH, setDiffH] = useState(0);
   const [diffM, setDiffM] = useState(0);
@@ -17,7 +21,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const recalculateDiff = () => {
-      let diff = targetDate.diff(dayjs(), 'day', true);
+      let diff = eventDate.diff(dayjs(), 'day', true);
       const days = Math.floor(diff);
       diff = (diff - days) * 24;
       const hours = Math.floor(diff);
@@ -35,11 +39,22 @@ const Home: NextPage = () => {
     recalculateDiff();
     const id = setInterval(() => recalculateDiff(), 300);
     return () => clearInterval(id);
-  }, [targetDate])
+  }, [eventDate])
 
   const numberFormatter = (input: number): string => {
     return input.toLocaleString([], { minimumIntegerDigits: 2 })
   };
+
+  const childToParent = (e) => {
+    console.log(e);
+  }
+
+  const nxModel = {
+    setEventDate,
+    setEventName,
+    eventDate,
+    eventName,
+  }
 
   return (
     <div className={styles.container}>
@@ -49,17 +64,20 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.cover}>
+      {/* <div className={styles.cover}>
         <Image
           src="/wall.jpeg"
           layout="fill"
+          priority
           alt="">
         </Image>
-      </div>
+      </div> */}
+
+      <EventSelector nxModel={nxModel}></EventSelector>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          <span className={styles.dynamic}>`Your event`</span>
+          <span className={styles.dynamic}>`{eventName}`</span>
           <span className={styles.static}> countdown</span>
         </h1>
 
@@ -95,10 +113,10 @@ const Home: NextPage = () => {
           </span>
         </a>
       </footer>
+
+      <div id="modal-root"></div>
     </div>
   )
 }
 
-
-
-export default Home
+export default Home;
