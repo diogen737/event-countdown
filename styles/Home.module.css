@@ -1,6 +1,5 @@
 .container {
   height: 100%;
-  background-color: black;
 
   display: flex;
   flex-direction: column;
@@ -8,7 +7,17 @@
   align-items: center;
 
   position: relative;
-  background: url(/wall.webp) center center;
+  background-color: #141828;
+}
+
+.cover {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  min-width: 800px;
+  width: 100%;
+  z-index: 1;
 }
 
 .main {
@@ -20,6 +29,7 @@
                0 0 0.5em #ff4444,
                0 0 0.1em #ff4444,
                0 10px 3px #000;
+  z-index: 2;
 }
 
 .title {
@@ -105,6 +115,7 @@
 .footer {
   position: absolute;
   bottom: 0;
+  z-index: 2;
 
   display: flex;
   padding: 2rem 0;
@@ -137,6 +148,9 @@
     font-size: 3rem;
   }
 
+  .countdownContainer .item {
+    min-width: 80px;
+  }
   .countdownContainer .item > .digit {
     font-size: 4rem;
   }

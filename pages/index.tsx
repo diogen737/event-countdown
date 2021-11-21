@@ -49,6 +49,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <div className={styles.cover}>
+        <Image
+          src="/wall.jpeg"
+          layout="fill"
+          alt="">
+        </Image>
+      </div>
+
       <main className={styles.main}>
         <h1 className={styles.title}>
           <span className={styles.dynamic}>`Your event`</span>
@@ -90,5 +98,7 @@ const Home: NextPage = () => {
     </div>
   )
 }
+
+
 
 export default Home
