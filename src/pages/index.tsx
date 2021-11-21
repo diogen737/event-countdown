@@ -64,14 +64,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <div className={styles.cover}>
+      <div className={styles.cover}>
         <Image
           src="/wall.jpeg"
           layout="fill"
           priority
           alt="">
         </Image>
-      </div> */}
+      </div>
 
       <EventSelector nxModel={nxModel}></EventSelector>
 
