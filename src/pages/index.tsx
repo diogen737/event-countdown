@@ -45,10 +45,6 @@ const Home: NextPage = () => {
     return input.toLocaleString([], { minimumIntegerDigits: 2 })
   };
 
-  const childToParent = (e) => {
-    console.log(e);
-  }
-
   const nxModel = {
     setEventDate,
     setEventName,
