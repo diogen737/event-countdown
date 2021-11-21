@@ -33,7 +33,7 @@ const Home: NextPage = () => {
     }
 
     recalculateDiff();
-    const id = setInterval(() => recalculateDiff(), 1000);
+    const id = setInterval(() => recalculateDiff(), 300);
     return () => clearInterval(id);
   }, [targetDate])
 
@@ -50,24 +50,27 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>`Your event` countdown</h1>
+        <h1 className={styles.title}>
+          <span className={styles.dynamic}>`Your event`</span>
+          <span className={styles.static}> countdown</span>
+        </h1>
 
         <div className={styles.countdownContainer}>
           <div className={[styles.days, styles.item].join(' ')}>
-            <span>{ numberFormatter(diffD) }</span>
-            <span>Days</span>
+            <span className={styles.digit}>{ numberFormatter(diffD) }</span>
+            <span className={styles.text}>Days</span>
           </div>
           <div className={[styles.hours, styles.item].join(' ')}>
-            <span>{ numberFormatter(diffH) }</span>
-            <span>Hours</span>
+            <span className={styles.digit}>{ numberFormatter(diffH) }</span>
+            <span className={styles.text}>Hours</span>
           </div>
           <div className={[styles.minutes, styles.item].join(' ')}>
-            <span>{ numberFormatter(diffM) }</span>
-            <span>Minutes</span>
+            <span className={styles.digit}>{ numberFormatter(diffM) }</span>
+            <span className={styles.text}>Minutes</span>
           </div>
           <div className={[styles.seconds, styles.item].join(' ')}>
-            <span>{ numberFormatter(diffS) }</span>
-            <span>Seconds</span>
+            <span className={styles.digit}>{ numberFormatter(diffS) }</span>
+            <span className={styles.text}>Seconds</span>
           </div>
         </div>
       </main>
