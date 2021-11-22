@@ -2,14 +2,13 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import dayjs, { Dayjs } from 'dayjs';
-import { createTheme, TextField, ThemeProvider } from '@mui/material';
+import { createTheme, Stack, TextField, ThemeProvider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { MobileDatePicker } from '@mui/lab';
-import { Box } from '@mui/system';
+import { DatePicker } from '@mui/lab';
 
 import styles from '../../styles/DateSelector.module.css'
 
@@ -33,7 +32,7 @@ const EventSelector = ({ nxModel }) => {
   };
 
   // Form handlers
-  const handleDateChange = (e: Dayjs|null) => {
+  const handleDateChange = (e: Dayjs | null) => {
     setEventDate(e || dayjs());
   };
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,45 +54,45 @@ const EventSelector = ({ nxModel }) => {
         onClick={handleClickOpen}>
       </Image>
       <ThemeProvider theme={darkTheme}>
-        <Dialog open={open} onClose={handleClose} fullWidth={true}>
+        <Dialog open={open} onClose={handleClose} maxWidth={'xs'} fullWidth={true}>
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           <DialogTitle>Choose event's date</DialogTitle>
           <DialogContent>
-            <Box
+            <Stack
+              spacing={4}
               component="form"
-              noValidate
               autoComplete="off"
+              noValidate
               sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                my: 2,
+                '& .MuiFormControl-root': {
+                  maxWidth: 400
+                }
               }}>
 
-              <div className="">
-                <TextField
-                  type="text"
-                  label="Name"
-                  defaultValue={eventName}
-                  onChange={handleNameChange}
-                  margin="normal"
-                  variant="standard"
-                  autoFocus
-                  fullWidth
-                />
+              <TextField
+                type="text"
+                label="Name"
+                defaultValue={eventName}
+                onChange={handleNameChange}
+                margin="none"
+                variant="outlined"
+              />
 
-                <MobileDatePicker
-                  label="Date"
-                  inputFormat="DD/MM/YYYY"
-                  value={eventDate}
-                  onChange={handleDateChange}
-                  disablePast
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </div>
+              <DatePicker
+                label="Date"
+                inputFormat="DD/MM/YYYY"
+                value={eventDate}
+                onChange={handleDateChange}
+                disablePast
+                renderInput={(params) => <TextField {...params} />}
+              />
 
-            </Box>
+            </Stack>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleSubmit}>Subscribe</Button>
+            <Button onClick={handleSubmit}>Done</Button>
           </DialogActions>
         </Dialog>
       </ThemeProvider>
