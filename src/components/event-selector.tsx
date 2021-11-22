@@ -10,10 +10,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { DatePicker } from '@mui/lab';
 
+import { EventControl } from '../model/event-control';
 import styles from '../../styles/DateSelector.module.css'
 
 
-const EventSelector = ({ nxModel }) => {
+const EventSelector = ({ nxModel }: { nxModel: EventControl }) => {
   const [open, setOpen] = useState(false);
   const [eventName, setEventName] = useState(nxModel.eventName);
   const [eventDate, setEventDate] = useState(nxModel.eventDate)
@@ -36,7 +37,16 @@ const EventSelector = ({ nxModel }) => {
     setEventDate(e || dayjs());
   };
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEventName(e.target.value || '');
+    setEventName(e.target.value.trim() || '');
+  }
+  const eventNameValidator = () => {
+    if (!eventName?.trim().length) {
+      return { error: true, text: 'Must not be empty' };
+    }
+    if (eventName.length > 25) {
+      return { error: true, text: 'Max 25 symbols' };
+    }
+    return { error: false }
   }
 
   const darkTheme = createTheme({
@@ -77,6 +87,8 @@ const EventSelector = ({ nxModel }) => {
                 onChange={handleNameChange}
                 margin="none"
                 variant="outlined"
+                error={eventNameValidator().error}
+                helperText={eventNameValidator().text}
               />
 
               <DatePicker

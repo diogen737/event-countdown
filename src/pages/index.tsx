@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 
 import dayjs from 'dayjs'
 
+import { EventControl } from '../model/event-control';
 import styles from '../../styles/Home.module.css'
 
 const EventSelector = dynamic(() => import('../components/event-selector'));
@@ -45,7 +46,7 @@ const Home: NextPage = () => {
     return input.toLocaleString([], { minimumIntegerDigits: 2 })
   };
 
-  const nxModel = {
+  const nxModel: EventControl = {
     setEventDate,
     setEventName,
     eventDate,
