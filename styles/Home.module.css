@@ -11,13 +11,21 @@
 }
 
 .cover {
-  position: absolute;
-  right: 0;
+  position: fixed;
+  right: calc(50% - 500px);
   top: 0;
-  bottom: 0;
   min-width: 1000px;
-  width: 100%;
+  min-height: 100%;
   z-index: 1;
+  /* filter: blur(10px); */
+  filter: brightness(.5);
+}
+
+@media screen and (min-width: 1000px) {
+  .cover {
+    min-width: 100%;
+    right: 0;
+  }
 }
 
 .main {

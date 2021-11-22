@@ -63,7 +63,8 @@ const Home: NextPage = () => {
 
       <div className={styles.cover}>
         <Image
-          src="/wall.jpeg"
+          src="/wall-new.jpg"
+          objectFit="cover"
           layout="fill"
           priority
           alt="">
