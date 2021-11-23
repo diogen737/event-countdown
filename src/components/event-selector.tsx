@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import Image from 'next/image';
 
 import dayjs, { Dayjs } from 'dayjs';
-import { createTheme, Stack, TextField, ThemeProvider } from '@mui/material';
+import { createTheme, IconButton, Stack, TextField, ThemeProvider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { DatePicker } from '@mui/lab';
 
 import { EventControl } from '../model/event-control';
@@ -49,21 +49,28 @@ const EventSelector = ({ nxModel }: { nxModel: EventControl }) => {
     return { error: false }
   }
 
+  // UI configs
   const darkTheme = createTheme({
-    palette: { mode: 'dark' },
+    palette: {
+      mode: 'dark',
+      secondary: {
+        main: '#ccc'
+      }
+    },
+
   });
 
   return (
-    <div className={styles.cog}>
-      <Image
-        src="/cog.svg"
-        layout="fixed"
-        width="30"
-        height="30"
-        alt="Choose anoter event"
-        onClick={handleClickOpen}>
-      </Image>
-      <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={darkTheme}>
+
+      <div className={styles.cog}>
+        <IconButton
+          size="large"
+          color="secondary"
+          title="Choose anoter event"
+          onClick={handleClickOpen}>
+          <SettingsIcon></SettingsIcon>
+        </IconButton>
         <Dialog open={open} onClose={handleClose} maxWidth={'xs'} fullWidth={true}>
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           <DialogTitle>Choose event's date</DialogTitle>
@@ -107,8 +114,8 @@ const EventSelector = ({ nxModel }: { nxModel: EventControl }) => {
             <Button onClick={handleSubmit}>Done</Button>
           </DialogActions>
         </Dialog>
-      </ThemeProvider>
-    </div >
+      </div >
+    </ThemeProvider>
   );
 }
 
