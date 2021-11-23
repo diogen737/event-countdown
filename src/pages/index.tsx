@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import dayjs from 'dayjs'
 
 import { EventControl } from '../model/event-control';
+import { EventColor } from '../components/event-color';
 import styles from '../../styles/Home.module.css'
 
 const EventSelector = dynamic(() => import('../components/event-selector'));
@@ -15,42 +16,47 @@ const EventSelector = dynamic(() => import('../components/event-selector'));
 const Home: NextPage = () => {
   const [eventDate, setEventDate] = useState(dayjs().startOf('year').add(1, 'year'));
   const [eventName, setEventName] = useState('New Year');
+  const [eventColor, setEventColor] = useState(EventColor.Red);
   const [diffD, setDiffD] = useState(0);
   const [diffH, setDiffH] = useState(0);
   const [diffM, setDiffM] = useState(0);
   const [diffS, setDiffS] = useState(0);
 
+  // Actual countdown logic
+  const recalculateDiff = () => {
+    let diff = eventDate.diff(dayjs(), 'day', true);
+    const days = Math.floor(diff);
+    diff = (diff - days) * 24;
+    const hours = Math.floor(diff);
+    diff = (diff - hours) * 60;
+    const minutes = Math.floor(diff);
+    diff = (diff - minutes) * 60;
+    const seconds = Math.floor(diff);
+
+    setDiffD(days);
+    setDiffH(hours);
+    setDiffM(minutes);
+    setDiffS(seconds);
+  }
+
   useEffect(() => {
-    const recalculateDiff = () => {
-      let diff = eventDate.diff(dayjs(), 'day', true);
-      const days = Math.floor(diff);
-      diff = (diff - days) * 24;
-      const hours = Math.floor(diff);
-      diff = (diff - hours) * 60;
-      const minutes = Math.floor(diff);
-      diff = (diff - minutes) * 60;
-      const seconds = Math.floor(diff);
-
-      setDiffD(days);
-      setDiffH(hours);
-      setDiffM(minutes);
-      setDiffS(seconds);
-    }
-
     recalculateDiff();
     const id = setInterval(() => recalculateDiff(), 300);
     return () => clearInterval(id);
-  }, [eventDate])
+  })
 
+  // Rendering logic
   const numberFormatter = (input: number): string => {
     return input.toLocaleString([], { minimumIntegerDigits: 2 })
   };
 
   const nxModel: EventControl = {
-    setEventDate,
-    setEventName,
-    eventDate,
     eventName,
+    eventDate,
+    eventColor,
+    setEventName,
+    setEventDate,
+    setEventColor,
   }
 
   return (
@@ -73,7 +79,7 @@ const Home: NextPage = () => {
 
       <EventSelector nxModel={nxModel}></EventSelector>
 
-      <main className={styles.main}>
+      <main className={`${styles.main} ${styles[eventColor]}`}>
         <h1 className={styles.title}>
           <span className={styles.dynamic}>`{eventName}`</span>
           <span className={styles.static}> countdown</span>

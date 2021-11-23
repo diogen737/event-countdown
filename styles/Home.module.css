@@ -28,16 +28,45 @@
   }
 }
 
+
+/*      Countdown text config           */
+
 .main {
   width: 90%;
   font-family: "Vibur";
+  z-index: 2;
+}
+.main.red {
   text-shadow: 0 -40px 100px,
                0 0 2px,
-               0 0 1em #ff4444,
-               0 0 0.5em #ff4444,
-               0 0 0.1em #ff4444,
+               0 0 1em #f11,
+               0 0 0.5em #f11,
+               0 0 0.1em #f11,
                0 10px 3px #000;
-  z-index: 2;
+}
+.main.blue {
+  text-shadow: 0 -40px 100px,
+               0 0 2px,
+               0 0 1em #44f,
+               0 0 0.5em #44f,
+               0 0 0.1em #44f,
+               0 10px 3px #000;
+}
+.main.green {
+  text-shadow: 0 -40px 100px,
+               0 0 2px,
+               0 0 1em #4f4,
+               0 0 0.5em #4f4,
+               0 0 0.1em #4f4,
+               0 10px 3px #000;
+}
+.main.yellow {
+  text-shadow: 0 -40px 100px,
+               0 0 2px,
+               0 0 1em #ff4,
+               0 0 0.5em #ff4,
+               0 0 0.1em #ff4,
+               0 10px 3px #000;
 }
 
 .title {
