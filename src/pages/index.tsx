@@ -81,7 +81,7 @@ const Home: NextPage = () => {
 
       <main className={`${styles.main} ${styles[eventColor]}`}>
         <h1 className={styles.title}>
-          <span className={styles.dynamic}>`{eventName}`</span>
+          <span className={styles.dynamic}>{eventName}</span>
           <span className={styles.static}> countdown</span>
         </h1>
 
