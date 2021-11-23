@@ -74,8 +74,9 @@ const EventSelector = ({ nxModel }: { nxModel: EventControl }) => {
     <ThemeProvider theme={darkTheme}>
 
       <div className={styles.cog}>
-        <Box>
-        <IconButton
+        <Box sx={{ p: 1.5 }}>
+          <IconButton
+            sx={{ p: 2 }}
             size="large"
             color="secondary"
             title="Change neon color"
@@ -84,6 +85,7 @@ const EventSelector = ({ nxModel }: { nxModel: EventControl }) => {
           </IconButton>
 
           <IconButton
+            sx={{ p: 2 }}
             size="large"
             color="secondary"
             title="Choose anoter event"
