@@ -173,7 +173,8 @@
     font-size: 4rem;
   }
   .countdownContainer .item {
-    min-width: 92px;
+    min-width: 100px;
+    font-size: 1.25rem;
   }
   .countdownContainer .item > .digit {
     font-size: 5rem;
