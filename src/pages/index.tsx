@@ -18,8 +18,7 @@ const Home: NextPage = () => {
   const [eventDate, setEventDate] = useState(dayjs().startOf('year').add(1, 'year'));
   const [eventName, setEventName] = useState('New Year');
   const [eventColor, setEventColor] = useState(EventColor.Red);
-  const [eventBg, setEventBg] = useState(EventBg.new_year.url);
-  const [eventBgClass, setEventBgClass] = useState(EventBg.new_year.classes);
+  const [eventBg, setEventBg] = useState(EventBg.new_year);
   const [diffD, setDiffD] = useState(0);
   const [diffH, setDiffH] = useState(0);
   const [diffM, setDiffM] = useState(0);
@@ -49,14 +48,8 @@ const Home: NextPage = () => {
   })
 
   useEffect(() => {
-    if ([0, 11].includes(eventDate.month())) {
-      // December, January
-      setEventBg(EventBg.new_year.url);
-      setEventBgClass(EventBg.new_year.classes);
-      setEventBg(EventBg.regular.url);
-    } else {
-      setEventBgClass(EventBg.regular.classes);
-    }
+    // December, January
+    setEventBg([0, 11].includes(eventDate.month()) ? EventBg.new_year : EventBg.regular);
   }, [eventDate]);
 
   // Rendering logic
@@ -81,9 +74,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={`${styles.cover} ${eventBgClass}`}>
+      <div className={`${styles.cover} ${eventBg.class}`}>
         <Image
-          src={eventBg}
+          src={eventBg.url}
           objectFit="cover"
           layout="fill"
           priority
