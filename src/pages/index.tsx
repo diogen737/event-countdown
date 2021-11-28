@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 
 import { EventControl } from '../model/event-control';
 import { EventColor } from '../components/event-color';
+import { EventBg } from '../components/event-bg';
 import styles from '../../styles/Home.module.css'
 
 const EventSelector = dynamic(() => import('../components/event-selector'));
@@ -17,6 +18,8 @@ const Home: NextPage = () => {
   const [eventDate, setEventDate] = useState(dayjs().startOf('year').add(1, 'year'));
   const [eventName, setEventName] = useState('New Year');
   const [eventColor, setEventColor] = useState(EventColor.Red);
+  const [eventBg, setEventBg] = useState('/wall.jpg');
+  const [eventBgClass, setEventBgClass] = useState('');
   const [diffD, setDiffD] = useState(0);
   const [diffH, setDiffH] = useState(0);
   const [diffM, setDiffM] = useState(0);
@@ -45,6 +48,17 @@ const Home: NextPage = () => {
     return () => clearInterval(id);
   })
 
+  useEffect(() => {
+    if ([0, 11].includes(eventDate.month())) {
+      // December, January
+      setEventBg(EventBg.new_year.url);
+      setEventBgClass(EventBg.new_year.classes);
+    } else {
+      setEventBg(EventBg.regular.url);
+      setEventBgClass(EventBg.regular.classes);
+    }
+  }, [eventDate]);
+
   // Rendering logic
   const numberFormatter = (input: number): string => {
     return input.toLocaleString([], { minimumIntegerDigits: 2 })
@@ -67,9 +81,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.cover}>
+      <div className={`${styles.cover} ${eventBgClass}`}>
         <Image
-          src="/wall.jpg"
+          src={eventBg}
           objectFit="cover"
           layout="fill"
           priority
