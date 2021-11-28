@@ -18,8 +18,8 @@ const Home: NextPage = () => {
   const [eventDate, setEventDate] = useState(dayjs().startOf('year').add(1, 'year'));
   const [eventName, setEventName] = useState('New Year');
   const [eventColor, setEventColor] = useState(EventColor.Red);
-  const [eventBg, setEventBg] = useState('/wall.jpg');
-  const [eventBgClass, setEventBgClass] = useState('');
+  const [eventBg, setEventBg] = useState(EventBg.new_year.url);
+  const [eventBgClass, setEventBgClass] = useState(EventBg.new_year.classes);
   const [diffD, setDiffD] = useState(0);
   const [diffH, setDiffH] = useState(0);
   const [diffM, setDiffM] = useState(0);
@@ -53,8 +53,8 @@ const Home: NextPage = () => {
       // December, January
       setEventBg(EventBg.new_year.url);
       setEventBgClass(EventBg.new_year.classes);
-    } else {
       setEventBg(EventBg.regular.url);
+    } else {
       setEventBgClass(EventBg.regular.classes);
     }
   }, [eventDate]);
