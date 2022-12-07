@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
+import Image from "next/image";
 import dynamic from 'next/dynamic';
 
 import dayjs from 'dayjs'
@@ -77,10 +77,13 @@ const Home: NextPage = () => {
       <div className={`${styles.cover} ${eventBg.class}`}>
         <Image
           src={eventBg.url}
-          objectFit="cover"
-          layout="fill"
           priority
-          alt="">
+          alt=""
+          fill
+          sizes="100vw"
+          style={{
+            objectFit: "cover"
+          }}>
         </Image>
       </div>
 
@@ -120,14 +123,22 @@ const Home: NextPage = () => {
         >
           Powered by{' '}
           <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+            <Image
+              src="/vercel.svg"
+              alt="Vercel Logo"
+              width={72}
+              height={16}
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
           </span>
         </a>
       </footer>
 
       <div id="modal-root"></div>
     </div>
-  )
+  );
 }
 
 export default Home;
