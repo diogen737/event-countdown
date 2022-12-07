@@ -10,7 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ColorizeIcon from '@mui/icons-material/Colorize';
-import { DatePicker } from '@mui/lab';
+import { DatePicker } from '@mui/x-date-pickers';
 
 import { EventControl } from '../model/event-control';
 import styles from '../../styles/DateSelector.module.css'

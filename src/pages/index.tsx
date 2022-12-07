@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from "next/image";
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import { Vibur } from '@next/font/google';
 
 import dayjs from 'dayjs'
 
@@ -10,6 +10,9 @@ import { EventControl } from '../model/event-control';
 import { EventColor } from '../components/event-color';
 import { EventBg } from '../components/event-bg';
 import styles from '../../styles/Home.module.css'
+
+
+const vibur = Vibur({ weight: '400', subsets: ['latin'] });
 
 const EventSelector = dynamic(() => import('../components/event-selector'));
 
@@ -68,11 +71,6 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <Head>
-        <title>Event Countdown</title>
-        <meta name="description" content="See how much time has left until your anticipated date" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
       <div className={`${styles.cover} ${eventBg.class}`}>
         <Image
@@ -89,7 +87,7 @@ const Home: NextPage = () => {
 
       <EventSelector nxModel={nxModel}></EventSelector>
 
-      <main className={`${styles.main} ${styles[eventColor]}`}>
+      <main className={`${styles.main} ${styles[eventColor]} ${vibur.className}`}>
         <h1 className={styles.title}>
           <span className={styles.dynamic}>{eventName}</span>
           <span className={styles.static}> countdown</span>
