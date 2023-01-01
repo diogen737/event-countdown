@@ -4,35 +4,41 @@ import { Vibur } from '@next/font/google';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import type { NextPage } from 'next';
-
 import dayjs from 'dayjs';
 
-import { EventConfig } from '@/model/event-config';
+import { EventConfig, EventType } from '@/model/event-config';
 import styles from '@/styles/Home.module.css';
 
-const vibur = Vibur({ weight: '400', subsets: ['latin'] });
-
+import Loading from '@/components/loading';
 const EventSelector = dynamic(() => import('@/components/event-selector'), {
   ssr: false,
 });
 
-const Home: NextPage = () => {
-  const router = useRouter();
+const vibur = Vibur({ weight: '400', subsets: ['latin'] });
 
-  const [eventConfig, setEventConfig] = useState(() => {
-    const { date, name, color } = router.query;
-    // console.log(router.query);
-    // console.log({ date, name, color });
-    // const dateParsed = dayjs(date as string);
-    // if (dateParsed.isValid()) {
-    //   return dateParsed;
-    // }
-    return new EventConfig(
-      'new year',
-      'red',
-      dayjs().startOf('year').add(1, 'year')
+const Home: NextPage = () => {
+  const { query, isReady } = useRouter();
+
+  const [eventConfig, setEventConfig] = useState<EventConfig>();
+
+  useEffect(() => {
+    if (!isReady) {
+      return;
+    }
+
+    const { date, name, type } = query;
+    console.log({ date, name, type });
+    const dateParsed = dayjs(date as string);
+    if (typeof name === 'string' && dateParsed.isValid()) {
+      return setEventConfig(
+        new EventConfig(name, dateParsed, type as EventType | undefined)
+      );
+    }
+    //
+    setEventConfig(
+      new EventConfig('new year', dayjs().startOf('year').add(1, 'year'))
     );
-  });
+  }, [isReady, query]);
 
   const [timeDiff, setTimeDiff] = useState({
     days: 0,
@@ -42,7 +48,11 @@ const Home: NextPage = () => {
   });
 
   useEffect(() => {
-    function getTimeDiff() {
+    if (!eventConfig) {
+      return;
+    }
+
+    const getTimeDiff = () => {
       let diff = eventConfig.date.diff(dayjs(), 'day', true);
       const days = Math.floor(diff);
       diff = (diff - days) * 24;
@@ -53,16 +63,20 @@ const Home: NextPage = () => {
       const seconds = Math.floor(diff);
 
       return { days, hours, minutes, seconds };
-    }
+    };
 
     setTimeDiff(getTimeDiff());
     const id = setInterval(() => setTimeDiff(getTimeDiff()), 300);
     return () => clearInterval(id);
-  }, [eventConfig.date]);
+  }, [eventConfig]);
 
   const numberFormatter = (input: number): string => {
     return input.toLocaleString([], { minimumIntegerDigits: 2 });
   };
+
+  if (!eventConfig) {
+    return <Loading />;
+  }
 
   return (
     <div className={styles.container}>

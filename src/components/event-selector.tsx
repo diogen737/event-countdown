@@ -27,7 +27,7 @@ export default function EventSelector({
   setState,
 }: {
   config: EventConfig;
-  setState: Dispatch<SetStateAction<EventConfig>>;
+  setState: Dispatch<SetStateAction<EventConfig | undefined>>;
 }) {
   const [open, setOpen] = useState(false);
   const [eventName, setEventName] = useState(config.name);

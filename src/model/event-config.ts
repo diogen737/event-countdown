@@ -35,15 +35,18 @@ export type EventType = keyof typeof EVENT_TYPES;
 export class EventConfig {
   [immerable] = true;
 
-  public type: EventType;
   public background: EventBackground;
 
   constructor(
     public name: string,
-    public color: EventColor,
-    public date: Dayjs
+    public date: Dayjs,
+    public type?: EventType,
+    public color: EventColor = 'red'
   ) {
-    this.type = this.getType(this.date);
+    if (!this.type) {
+      // determine type base on the date if not overridden
+      this.type = this.getType(this.date);
+    }
     this.background = this.getBackground(this.type);
   }
 
