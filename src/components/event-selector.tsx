@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import dayjs, { Dayjs } from 'dayjs';
 import {
@@ -18,32 +18,36 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ColorizeIcon from '@mui/icons-material/Colorize';
 import { DatePicker } from '@mui/x-date-pickers';
 
-import { EventControl } from '@/model/event-control';
-import { EVENT_COLORS } from '@/model/const/event-color';
+import { EventConfig, EVENT_COLORS } from '@/model/event-config';
 
 import styles from '@/styles/DateSelector.module.css';
 
-export default function EventSelector({ nxModel }: { nxModel: EventControl }) {
+export default function EventSelector({
+  config,
+  setState,
+}: {
+  config: EventConfig;
+  setState: Dispatch<SetStateAction<EventConfig>>;
+}) {
   const [open, setOpen] = useState(false);
-  const [eventName, setEventName] = useState(nxModel.eventName);
-  const [eventDate, setEventDate] = useState(nxModel.eventDate);
+  const [eventName, setEventName] = useState(config.name);
+  const [eventDate, setEventDate] = useState(config.date);
 
   // Colorizer handler
   const handleClickColorizer = () => {
     const possibleEntries = Object.values(EVENT_COLORS);
     const currentEntryIndex = possibleEntries.findIndex(
-      (e) => e === nxModel.eventColor
+      (e) => e === config.color
     );
     const nextEntryIndex = (currentEntryIndex + 1) % possibleEntries.length;
-    nxModel.setEventColor(possibleEntries[nextEntryIndex]);
+    setState(config.setColor(possibleEntries[nextEntryIndex]));
   };
 
   // Modal handlers
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleSubmit = () => {
-    nxModel.setEventName(eventName);
-    nxModel.setEventDate(eventDate);
+    setState(config.setName(eventName).setDate(eventDate));
     handleClose();
   };
 
@@ -133,7 +137,7 @@ export default function EventSelector({ nxModel }: { nxModel: EventControl }) {
 
             <DatePicker
               label="Date"
-              inputFormat="DD/MM/YYYY"
+              inputFormat="DD.MM.YYYY"
               value={eventDate}
               onChange={handleDateChange}
               disablePast

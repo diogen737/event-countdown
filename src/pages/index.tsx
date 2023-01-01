@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import type { NextPage } from 'next';
-import Image from 'next/image';
-import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { Vibur } from '@next/font/google';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import type { NextPage } from 'next';
 
 import dayjs from 'dayjs';
 
-import { EventControl } from '@/model/event-control';
-import { EventColor } from '@/model/const/event-color';
-import { EventBg } from '@/model/const/event-bg';
+import { EventConfig } from '@/model/event-config';
 import styles from '@/styles/Home.module.css';
 
 const vibur = Vibur({ weight: '400', subsets: ['latin'] });
@@ -18,12 +17,23 @@ const EventSelector = dynamic(() => import('@/components/event-selector'), {
 });
 
 const Home: NextPage = () => {
-  const [eventDate, setEventDate] = useState(
-    dayjs().startOf('year').add(1, 'year')
-  );
-  const [eventName, setEventName] = useState('New Year');
-  const [eventColor, setEventColor] = useState<EventColor>('red');
-  const [eventBg, setEventBg] = useState(EventBg.new_year);
+  const router = useRouter();
+
+  const [eventConfig, setEventConfig] = useState(() => {
+    const { date, name, color } = router.query;
+    // console.log(router.query);
+    // console.log({ date, name, color });
+    // const dateParsed = dayjs(date as string);
+    // if (dateParsed.isValid()) {
+    //   return dateParsed;
+    // }
+    return new EventConfig(
+      'new year',
+      'red',
+      dayjs().startOf('year').add(1, 'year')
+    );
+  });
+
   const [timeDiff, setTimeDiff] = useState({
     days: 0,
     hours: 0,
@@ -33,7 +43,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     function getTimeDiff() {
-      let diff = eventDate.diff(dayjs(), 'day', true);
+      let diff = eventConfig.date.diff(dayjs(), 'day', true);
       const days = Math.floor(diff);
       diff = (diff - days) * 24;
       const hours = Math.floor(diff);
@@ -48,34 +58,17 @@ const Home: NextPage = () => {
     setTimeDiff(getTimeDiff());
     const id = setInterval(() => setTimeDiff(getTimeDiff()), 300);
     return () => clearInterval(id);
-  }, [eventDate]);
+  }, [eventConfig.date]);
 
-  useEffect(() => {
-    // December, January
-    setEventBg(
-      [0, 11].includes(eventDate.month()) ? EventBg.new_year : EventBg.regular
-    );
-  }, [eventDate]);
-
-  // Rendering logic
   const numberFormatter = (input: number): string => {
     return input.toLocaleString([], { minimumIntegerDigits: 2 });
   };
 
-  const nxModel: EventControl = {
-    eventName,
-    eventDate,
-    eventColor,
-    setEventName,
-    setEventDate,
-    setEventColor,
-  };
-
   return (
     <div className={styles.container}>
-      <div className={`${styles.cover} ${eventBg.class}`}>
+      <div className={`${styles.cover} ${eventConfig.background.class}`}>
         <Image
-          src={eventBg.url}
+          src={eventConfig.background.url}
           priority
           alt=""
           fill
@@ -86,13 +79,18 @@ const Home: NextPage = () => {
         ></Image>
       </div>
 
-      <EventSelector nxModel={nxModel}></EventSelector>
+      <EventSelector
+        config={eventConfig}
+        setState={setEventConfig}
+      ></EventSelector>
 
       <main
-        className={`${styles.main} ${styles[eventColor]} ${vibur.className}`}
+        className={`${styles.main} ${styles[eventConfig.color]} ${
+          vibur.className
+        }`}
       >
         <h1 className={styles.title}>
-          <span className={styles.dynamic}>{eventName}</span>
+          <span className={styles.dynamic}>{eventConfig.name}</span>
           <span className={styles.static}> countdown</span>
         </h1>
 
