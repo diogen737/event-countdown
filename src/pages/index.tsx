@@ -6,21 +6,23 @@ import { Vibur } from '@next/font/google';
 
 import dayjs from 'dayjs';
 
-import { EventControl } from '../model/event-control';
-import { EventColor } from '../components/event-color';
-import { EventBg } from '../components/event-bg';
-import styles from '../../styles/Home.module.css';
+import { EventControl } from '@/model/event-control';
+import { EventColor } from '@/model/const/event-color';
+import { EventBg } from '@/model/const/event-bg';
+import styles from '@/styles/Home.module.css';
 
 const vibur = Vibur({ weight: '400', subsets: ['latin'] });
 
-const EventSelector = dynamic(() => import('../components/event-selector'));
+const EventSelector = dynamic(() => import('../components/event-selector'), {
+  ssr: false,
+});
 
 const Home: NextPage = () => {
   const [eventDate, setEventDate] = useState(
     dayjs().startOf('year').add(1, 'year')
   );
   const [eventName, setEventName] = useState('New Year');
-  const [eventColor, setEventColor] = useState(EventColor.Red);
+  const [eventColor, setEventColor] = useState<EventColor>('red');
   const [eventBg, setEventBg] = useState(EventBg.new_year);
   const [timeDiff, setTimeDiff] = useState({
     days: 0,

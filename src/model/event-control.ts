@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Dayjs } from 'dayjs';
-import { EventColor } from '../components/event-color';
+
+import { EventColor } from '@/model/const/event-color';
 
 export interface EventControl {
     eventName: string;
