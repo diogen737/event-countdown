@@ -29,25 +29,24 @@ const Home: NextPage = () => {
     seconds: 0,
   });
 
-  // Actual countdown logic
-  const recalculateDiff = () => {
-    let diff = eventDate.diff(dayjs(), 'day', true);
-    const days = Math.floor(diff);
-    diff = (diff - days) * 24;
-    const hours = Math.floor(diff);
-    diff = (diff - hours) * 60;
-    const minutes = Math.floor(diff);
-    diff = (diff - minutes) * 60;
-    const seconds = Math.floor(diff);
-
-    setTimeDiff({ days, hours, minutes, seconds });
-  };
-
   useEffect(() => {
-    recalculateDiff();
-    const id = setInterval(() => recalculateDiff(), 300);
+    function getTimeDiff() {
+      let diff = eventDate.diff(dayjs(), 'day', true);
+      const days = Math.floor(diff);
+      diff = (diff - days) * 24;
+      const hours = Math.floor(diff);
+      diff = (diff - hours) * 60;
+      const minutes = Math.floor(diff);
+      diff = (diff - minutes) * 60;
+      const seconds = Math.floor(diff);
+
+      return { days, hours, minutes, seconds };
+    }
+
+    setTimeDiff(getTimeDiff());
+    const id = setInterval(() => setTimeDiff(getTimeDiff()), 300);
     return () => clearInterval(id);
-  });
+  }, [eventDate]);
 
   useEffect(() => {
     // December, January
@@ -97,19 +96,27 @@ const Home: NextPage = () => {
 
         <div className={styles.countdownContainer}>
           <div className={`${styles.days} ${styles.item}`}>
-            <span className={styles.digit}>{numberFormatter(timeDiff.days)}</span>
+            <span className={styles.digit}>
+              {numberFormatter(timeDiff.days)}
+            </span>
             <span className={styles.text}>Days</span>
           </div>
           <div className={[styles.hours, styles.item].join(' ')}>
-            <span className={styles.digit}>{numberFormatter(timeDiff.hours)}</span>
+            <span className={styles.digit}>
+              {numberFormatter(timeDiff.hours)}
+            </span>
             <span className={styles.text}>Hours</span>
           </div>
           <div className={[styles.minutes, styles.item].join(' ')}>
-            <span className={styles.digit}>{numberFormatter(timeDiff.minutes)}</span>
+            <span className={styles.digit}>
+              {numberFormatter(timeDiff.minutes)}
+            </span>
             <span className={styles.text}>Minutes</span>
           </div>
           <div className={[styles.seconds, styles.item].join(' ')}>
-            <span className={styles.digit}>{numberFormatter(timeDiff.seconds)}</span>
+            <span className={styles.digit}>
+              {numberFormatter(timeDiff.seconds)}
+            </span>
             <span className={styles.text}>Seconds</span>
           </div>
         </div>
