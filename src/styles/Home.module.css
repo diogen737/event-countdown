@@ -17,10 +17,10 @@
   min-width: 1000px;
   min-height: 100%;
   z-index: 1;
-  filter: brightness(.85);
+  filter: brightness(0.85);
 }
 .cover.blurred {
-  filter: brightness(.65) blur(5px);
+  filter: brightness(0.65) blur(5px);
 }
 
 @media screen and (min-width: 1000px) {
@@ -30,7 +30,6 @@
   }
 }
 
-
 /*      Countdown text config           */
 
 .main {
@@ -38,36 +37,20 @@
   z-index: 2;
 }
 .main.red {
-  text-shadow: 0 -40px 100px,
-               0 0 2px,
-               0 0 1em #f11,
-               0 0 0.5em #f11,
-               0 0 0.1em #f11,
-               0 10px 3px #000;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #f11, 0 0 0.5em #f11,
+    0 0 0.1em #f11, 0 10px 3px #000;
 }
 .main.blue {
-  text-shadow: 0 -40px 100px,
-               0 0 2px,
-               0 0 1em #44f,
-               0 0 0.5em #44f,
-               0 0 0.1em #44f,
-               0 10px 3px #000;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #44f, 0 0 0.5em #44f,
+    0 0 0.1em #44f, 0 10px 3px #000;
 }
 .main.green {
-  text-shadow: 0 -40px 100px,
-               0 0 2px,
-               0 0 1em #4f4,
-               0 0 0.5em #4f4,
-               0 0 0.1em #4f4,
-               0 10px 3px #000;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #4f4, 0 0 0.5em #4f4,
+    0 0 0.1em #4f4, 0 10px 3px #000;
 }
 .main.yellow {
-  text-shadow: 0 -40px 100px,
-               0 0 2px,
-               0 0 1em #ff4,
-               0 0 0.5em #ff4,
-               0 0 0.1em #ff4,
-               0 10px 3px #000;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff4, 0 0 0.5em #ff4,
+    0 0 0.1em #ff4, 0 10px 3px #000;
 }
 
 .title {
@@ -81,10 +64,10 @@
   flex-direction: column;
 }
 
-.title > .dynamic, .title > .static {
+.title > .dynamic,
+.title > .static {
   text-align: center;
 }
-
 
 /*           Countdown               */
 
@@ -115,15 +98,25 @@
 }
 
 @keyframes flicker {
-	0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
-    opacity: .99;
-		
-	}
-	20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
-		opacity: 0.4;
-	}
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 0.99;
+  }
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.4;
+  }
 }
-
 
 /*            Footer                 */
 
@@ -140,7 +133,7 @@
 .footer a {
   display: flex;
   align-items: center;
-  font-size: .75rem;
+  font-size: 0.75rem;
 }
 
 .footer .logo {
@@ -148,7 +141,6 @@
   margin-left: 0.75rem;
   width: 35%;
 }
-
 
 /*            RESPONSIVE                 */
 

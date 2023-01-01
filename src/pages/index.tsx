@@ -13,7 +13,7 @@ import styles from '@/styles/Home.module.css';
 
 const vibur = Vibur({ weight: '400', subsets: ['latin'] });
 
-const EventSelector = dynamic(() => import('../components/event-selector'), {
+const EventSelector = dynamic(() => import('@/components/event-selector'), {
   ssr: false,
 });
 
