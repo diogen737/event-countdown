@@ -7,6 +7,7 @@ import type { NextPage } from 'next';
 import dayjs from 'dayjs';
 
 import { EventConfig, EventType } from '@/model/event-config';
+import { LS_EVENT } from '@/model/const/keys';
 import styles from '@/styles/Home.module.css';
 
 import Loading from '@/components/loading';
@@ -26,15 +27,25 @@ const Home: NextPage = () => {
       return;
     }
 
-    const { date, name, type } = query;
-    // console.log({ date, name, type });
-    const dateParsed = dayjs(date as string);
-    if (typeof name === 'string' && dateParsed.isValid()) {
+    // config from query params
+    const { date: dateQ, name: nameQ, type: typeQ } = query;
+    // console.log({ dateQ, nameQ, typeQ });
+    let dateParsed = dayjs(dateQ as string);
+    if (typeof nameQ === 'string' && dateParsed.isValid()) {
       return setEventConfig(
-        new EventConfig(name, dateParsed, type as EventType | undefined)
+        new EventConfig(nameQ, dateParsed, typeQ as EventType | undefined)
       );
     }
-    //
+    // config from local storage
+    const { date: dateLs, name: nameLs, type: typeLs } = JSON.parse(localStorage.getItem(LS_EVENT) || '{}');
+    // console.log({ dateLs, nameLs, typeLs });
+    dateParsed = dayjs(dateLs);
+    if (typeof nameLs === 'string' && dateParsed.isValid()) {
+      return setEventConfig(
+        new EventConfig(nameLs, dateParsed, typeLs as EventType | undefined)
+      );
+    }
+    // default event
     setEventConfig(
       new EventConfig('new year', dayjs().startOf('year').add(1, 'year'))
     );

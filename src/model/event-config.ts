@@ -29,18 +29,17 @@ export type EventType = typeof EVENT_TYPES[keyof typeof EVENT_TYPES];
 export class EventConfig {
   [immerable] = true;
 
+  public type: EventType;
   public background: EventBackground;
 
   constructor(
     public name: string,
     public date: Dayjs,
-    public type?: EventType,
+    type?: EventType,
     public color: EventColor = 'red'
   ) {
-    if (!this.type) {
-      // determine type base on the date if not overridden
-      this.type = this.getType(this.date);
-    }
+    // determine type base on the date if not overridden
+    this.type = type || this.getType(this.date);
     this.background = this.getBackground(this.type);
   }
 
@@ -76,6 +75,15 @@ export class EventConfig {
   /**
    * getters
    */
+
+  public toJSON(): string {
+    return JSON.stringify({
+      name: this.name,
+      date: this.date.toISOString(),
+      type: this.type,
+      color: this.color,
+    });
+  }
 
   public getType(date: Dayjs): EventType {
     if ([0, 11].includes(date.month())) {

@@ -24,6 +24,7 @@ import ColorizeIcon from '@mui/icons-material/Colorize';
 import { DatePicker } from '@mui/x-date-pickers';
 
 import { EventConfig, EventType, EVENT_COLORS, EVENT_TYPES } from '@/model/event-config';
+import { LS_EVENT } from '@/model/const/keys';
 
 import styles from '@/styles/DateSelector.module.css';
 
@@ -53,6 +54,8 @@ export default function EventSelector({
   const handleClose = () => setOpen(false);
   const handleSubmit = () => {
     setState(config.setName(eventName).setDate(eventDate).setType(eventType));
+    // persist config
+    localStorage.setItem(LS_EVENT, config.toJSON());
     handleClose();
   };
 
