@@ -11,7 +11,7 @@ import { LS_EVENT } from '@/model/const/keys';
 import styles from '@/styles/Home.module.css';
 
 import Loading from '@/components/loading';
-const EventSelector = dynamic(() => import('@/components/event-selector'), {
+const EventConfigurator = dynamic(() => import('@/components/event-configurator'), {
   ssr: false,
 });
 
@@ -104,10 +104,10 @@ const Home: NextPage = () => {
         ></Image>
       </div>
 
-      <EventSelector
+      <EventConfigurator
         config={eventConfig}
         setState={setEventConfig}
-      ></EventSelector>
+      ></EventConfigurator>
 
       <main
         className={`${styles.main} ${styles[eventConfig.color]} ${

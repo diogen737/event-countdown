@@ -32,7 +32,7 @@ import {
 } from '@/model/event-config';
 import { LS_EVENT } from '@/model/const/keys';
 
-export default function EventSelector({
+export default function EventConfigurator({
   config,
   setState,
 }: {
