@@ -4,18 +4,12 @@ import produce, { immerable } from 'immer';
 import { EventBackground } from '@/model/event-background';
 import styles from '@/styles/Home.module.css';
 
-export const EVENT_COLORS = {
-  Red: 'red',
-  Green: 'green',
-  Blue: 'blue',
-  Yellow: 'yellow',
-} as const;
+export const EVENT_COLORS = ['red', 'green', 'blue', 'yellow'] as const;
 
 export const EVENT_TYPES = {
-  Christmas: 'christmas',
-  NewYear: 'new-year',
-  Meeting: 'meeting',
-  Misc: 'misc',
+  christmas: 'Christmas',
+  meeting: 'Meeting',
+  misc: 'Other',
 } as const;
 
 export const EVENT_BACKGROUNDS = {
@@ -29,8 +23,8 @@ export const EVENT_BACKGROUNDS = {
   },
 } as const;
 
-export type EventColor = typeof EVENT_COLORS[keyof typeof EVENT_COLORS];
-export type EventType = keyof typeof EVENT_TYPES;
+export type EventColor = typeof EVENT_COLORS[number];
+export type EventType = typeof EVENT_TYPES[keyof typeof EVENT_TYPES];
 
 export class EventConfig {
   [immerable] = true;
@@ -83,17 +77,16 @@ export class EventConfig {
    * getters
    */
 
-  private getType(date: Dayjs): EventType {
+  public getType(date: Dayjs): EventType {
     if ([0, 11].includes(date.month())) {
-      return 'NewYear';
+      return EVENT_TYPES.christmas;
     }
-    return 'Misc';
+    return EVENT_TYPES.misc;
   }
 
   private getBackground(type: EventType): EventBackground {
     switch (type) {
-      case 'Christmas':
-      case 'NewYear':
+      case EVENT_TYPES.christmas:
         return EVENT_BACKGROUNDS.new_year;
       default:
         return EVENT_BACKGROUNDS.regular;

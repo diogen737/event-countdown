@@ -27,7 +27,7 @@ const Home: NextPage = () => {
     }
 
     const { date, name, type } = query;
-    console.log({ date, name, type });
+    // console.log({ date, name, type });
     const dateParsed = dayjs(date as string);
     if (typeof name === 'string' && dateParsed.isValid()) {
       return setEventConfig(

@@ -1,9 +1,14 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 
 import dayjs, { Dayjs } from 'dayjs';
 import {
   createTheme,
+  FormControl,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Stack,
   TextField,
   ThemeProvider,
@@ -18,7 +23,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ColorizeIcon from '@mui/icons-material/Colorize';
 import { DatePicker } from '@mui/x-date-pickers';
 
-import { EventConfig, EVENT_COLORS } from '@/model/event-config';
+import { EventConfig, EventType, EVENT_COLORS, EVENT_TYPES } from '@/model/event-config';
 
 import styles from '@/styles/DateSelector.module.css';
 
@@ -32,31 +37,36 @@ export default function EventSelector({
   const [open, setOpen] = useState(false);
   const [eventName, setEventName] = useState(config.name);
   const [eventDate, setEventDate] = useState(config.date);
+  const [eventType, setType] = useState(config.type!);
 
   // Colorizer handler
   const handleClickColorizer = () => {
-    const possibleEntries = Object.values(EVENT_COLORS);
-    const currentEntryIndex = possibleEntries.findIndex(
+    const currentEntryIndex = EVENT_COLORS.findIndex(
       (e) => e === config.color
     );
-    const nextEntryIndex = (currentEntryIndex + 1) % possibleEntries.length;
-    setState(config.setColor(possibleEntries[nextEntryIndex]));
+    const nextEntryIndex = (currentEntryIndex + 1) % EVENT_COLORS.length;
+    setState(config.setColor(EVENT_COLORS[nextEntryIndex]));
   };
 
   // Modal handlers
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleSubmit = () => {
-    setState(config.setName(eventName).setDate(eventDate));
+    setState(config.setName(eventName).setDate(eventDate).setType(eventType));
     handleClose();
   };
 
   // Form handlers
   const handleDateChange = (e: Dayjs | null) => {
-    setEventDate(e || dayjs());
+    const date = e || dayjs();
+    setEventDate(date);
+    setType(config.getType(date));
   };
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEventName(e.target.value.trim() || '');
+  };
+  const handleTypeChange = (e: SelectChangeEvent) => {
+    setType(e.target.value as EventType);
   };
   const eventNameValidator = () => {
     if (!eventName?.trim().length) {
@@ -77,6 +87,10 @@ export default function EventSelector({
       },
     },
   });
+
+  const typeItems = Object.entries(EVENT_TYPES).map(([_, v]) => (
+    <MenuItem value={v} key={v}>{v}</MenuItem>
+  ));
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -143,6 +157,19 @@ export default function EventSelector({
               disablePast
               renderInput={(params) => <TextField {...params} />}
             />
+
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Type</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={eventType}
+                label="Type"
+                onChange={handleTypeChange}
+              >
+                {typeItems}
+              </Select>
+            </FormControl>
           </Stack>
         </DialogContent>
         <DialogActions>
