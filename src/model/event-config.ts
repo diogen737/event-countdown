@@ -76,13 +76,21 @@ export class EventConfig {
    * getters
    */
 
-  public toJSON(): string {
-    return JSON.stringify({
+  public get config(): Record<string, string> {
+    return {
       name: this.name,
       date: this.date.toISOString(),
       type: this.type,
-      color: this.color,
-    });
+      // color: this.color,
+    };
+  }
+
+  public toJSON(): string {
+    return JSON.stringify(this.config);
+  }
+
+  public toQuery(): string {
+    return new URLSearchParams(this.config).toString();
   }
 
   public getType(date: Dayjs): EventType {

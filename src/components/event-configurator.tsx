@@ -3,7 +3,6 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import {
   Alert,
-  createTheme,
   FormControl,
   IconButton,
   InputLabel,
@@ -12,7 +11,6 @@ import {
   SelectChangeEvent,
   Stack,
   TextField,
-  ThemeProvider,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import Button from '@mui/material/Button';
@@ -55,9 +53,13 @@ export default function EventConfigurator({
   const dialogOpen = () => setOpen(true);
   const dialogClose = () => setOpen(false);
   const handleSubmit = () => {
-    setState(config.setName(eventName).setDate(eventDate).setType(eventType));
+    const newConfig = config
+      .setName(eventName)
+      .setDate(eventDate)
+      .setType(eventType);
+    setState(newConfig);
     // persist config
-    localStorage.setItem(LS_EVENT, config.toJSON());
+    localStorage.setItem(LS_EVENT, newConfig.toJSON());
     dialogClose();
   };
 
@@ -84,25 +86,6 @@ export default function EventConfigurator({
     return { error: false };
   };
 
-  // UI configs
-  const darkTheme = createTheme({
-    palette: {
-      mode: 'dark',
-      secondary: {
-        main: '#ccc',
-      },
-    },
-    components: {
-      MuiAlert: {
-        styleOverrides: {
-          icon: {
-            alignItems: 'center',
-          },
-        },
-      },
-    },
-  });
-
   const typeItems = Object.entries(EVENT_TYPES).map(([_, v]) => (
     <MenuItem value={v} key={v}>
       {v}
@@ -110,7 +93,7 @@ export default function EventConfigurator({
   ));
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <>
       <Box
         sx={{ p: 1.5, position: 'absolute', right: 0, bottom: 0, zIndex: 2 }}
       >
@@ -121,17 +104,17 @@ export default function EventConfigurator({
           title="Change neon color"
           onClick={cycleColor}
         >
-          <ColorizeIcon></ColorizeIcon>
+          <ColorizeIcon />
         </IconButton>
 
         <IconButton
           sx={{ p: 2 }}
           size="large"
           color="secondary"
-          title="Choose anoter event"
+          title="Choose another event"
           onClick={dialogOpen}
         >
-          <SettingsIcon></SettingsIcon>
+          <SettingsIcon />
         </IconButton>
       </Box>
 
@@ -190,7 +173,7 @@ export default function EventConfigurator({
               </Select>
             </FormControl>
 
-            <Alert variant="outlined" severity="info" sx={{ fontSize: 10 }}>
+            <Alert variant="outlined" severity="info">
               Event will be saved permanently on this device
             </Alert>
           </Stack>
@@ -199,6 +182,6 @@ export default function EventConfigurator({
           <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
-    </ThemeProvider>
+    </>
   );
 }
