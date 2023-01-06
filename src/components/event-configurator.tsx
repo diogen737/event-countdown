@@ -207,7 +207,7 @@ export default function EventConfigurator({
           </Stack>
         </DialogContent>
         <DialogActions sx={{ px: 3, py: 1 }}>
-          <Button onClick={dialogClose}>Disagree</Button>
+          <Button onClick={dialogClose}>Cancel</Button>
           <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
