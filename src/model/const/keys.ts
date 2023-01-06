@@ -1,0 +1,1 @@
+export const LS_EVENT = 'ec-event-config';
