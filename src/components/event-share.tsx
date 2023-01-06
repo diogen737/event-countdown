@@ -31,7 +31,7 @@ export default function EventShare({ config }: { config: EventConfig }) {
   };
 
   const copyConfigUrl = async () => {
-    const host = window.location.host;
+    const host = window.location.origin;
     const url = host + '?' + config.toQuery();
     await navigator.clipboard.writeText(url);
   };
