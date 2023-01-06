@@ -67,7 +67,7 @@ export default function EventConfigurator({
   const dateChange = (e: Dayjs | null) => {
     const date = e || dayjs();
     setEventDate(date);
-    setType(config.getType(date));
+    // setType(config.getType(date));
   };
   const nameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEventName(e.target.value.trim() || '');

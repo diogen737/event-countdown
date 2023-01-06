@@ -12,15 +12,18 @@ export const EVENT_TYPES = {
   misc: 'Other',
 } as const;
 
-export const EVENT_BACKGROUNDS = {
-  regular: {
+export const EVENT_BACKGROUNDS: { [type in EventType]?: EventBackground }= {
+  Other: {
     url: '/wall.webp',
-    class: '',
   },
-  new_year: {
-    url: '/wall-ny.webp',
+  Christmas: {
+    url: '/wall-christmas.webp',
     class: styles.blurred,
   },
+  Meeting: {
+    url: '/wall-meeting.webp',
+    class: styles.blurred,
+  }
 } as const;
 
 export type EventColor = typeof EVENT_COLORS[number];
@@ -101,11 +104,6 @@ export class EventConfig {
   }
 
   private getBackground(type: EventType): EventBackground {
-    switch (type) {
-      case EVENT_TYPES.christmas:
-        return EVENT_BACKGROUNDS.new_year;
-      default:
-        return EVENT_BACKGROUNDS.regular;
-    }
+    return EVENT_BACKGROUNDS[type] ?? EVENT_BACKGROUNDS.Other!;
   }
 }

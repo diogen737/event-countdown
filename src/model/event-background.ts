@@ -1,4 +1,4 @@
 export type EventBackground = {
   url: string;
-  class: string;
+  class?: string;
 }
