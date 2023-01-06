@@ -149,7 +149,6 @@ export default function EventConfigurator({
 
       <Dialog
         open={open}
-        onClose={dialogClose}
         maxWidth={'xs'}
         fullWidth={true}
       >
@@ -208,6 +207,7 @@ export default function EventConfigurator({
           </Stack>
         </DialogContent>
         <DialogActions sx={{ px: 3, py: 1 }}>
+          <Button onClick={dialogClose}>Disagree</Button>
           <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>

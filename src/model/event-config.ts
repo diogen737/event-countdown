@@ -65,7 +65,7 @@ export class EventConfig {
   public setDate(v: Dayjs) {
     return produce(this, (draft) => {
       draft.date = v;
-    }).setType(this.getType(v));
+    });
   }
 
   public setType(v: EventType) {
