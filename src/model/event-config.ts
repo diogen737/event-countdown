@@ -84,7 +84,7 @@ export class EventConfig {
       name: this.name,
       date: this.date.toISOString(),
       type: this.type,
-      // color: this.color,
+      color: this.color,
     };
   }
 

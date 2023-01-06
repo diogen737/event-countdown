@@ -3,6 +3,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import {
   Alert,
+  createTheme,
   FormControl,
   IconButton,
   InputLabel,
@@ -11,6 +12,7 @@ import {
   SelectChangeEvent,
   Stack,
   TextField,
+  ThemeProvider,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import Button from '@mui/material/Button';
@@ -92,8 +94,35 @@ export default function EventConfigurator({
     </MenuItem>
   ));
 
+  const defaultTheme = createTheme();
+  const theme = createTheme({
+    palette: {
+      mode: 'dark',
+      secondary: {
+        main: '#ccc',
+      },
+    },
+    components: {
+      MuiAlert: {
+        styleOverrides: {
+          icon: {
+            alignItems: 'center',
+            padding: 0,
+          },
+          message: {
+            padding: '4px 0 2px 0',
+            fontSize: 10,
+            [defaultTheme.breakpoints.up('sm')]: {
+              fontSize: 12,
+            },
+          },
+        },
+      },
+    },
+  });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Box
         sx={{ p: 1.5, position: 'absolute', right: 0, bottom: 0, zIndex: 2 }}
       >
@@ -182,6 +211,6 @@ export default function EventConfigurator({
           <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
-    </>
+    </ThemeProvider>
   );
 }

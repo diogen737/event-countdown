@@ -1,6 +1,14 @@
 import { useState } from 'react';
 
-import { Alert, IconButton, Slide, SlideProps, Snackbar } from '@mui/material';
+import {
+  Alert,
+  createTheme,
+  IconButton,
+  Slide,
+  SlideProps,
+  Snackbar,
+  ThemeProvider,
+} from '@mui/material';
 import { Box } from '@mui/system';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
@@ -28,8 +36,16 @@ export default function EventShare({ config }: { config: EventConfig }) {
     await navigator.clipboard.writeText(url);
   };
 
+  const theme = createTheme({
+    palette: {
+      secondary: {
+        main: '#ccc',
+      },
+    },
+  });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Box sx={{ p: 1.5, position: 'absolute', left: 0, bottom: 0, zIndex: 2 }}>
         <IconButton
           sx={{ p: 2 }}
@@ -45,14 +61,14 @@ export default function EventShare({ config }: { config: EventConfig }) {
       <Snackbar
         open={open}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        autoHideDuration={4000}
+        autoHideDuration={4_000_000}
         onClose={handleClose}
         TransitionComponent={SlideTransition}
       >
-        <Alert variant="outlined" severity="success" sx={{ width: '100%' }}>
+        <Alert variant="filled" severity="info">
           Copied to clipboard!
         </Alert>
       </Snackbar>
-    </>
+    </ThemeProvider>
   );
 }

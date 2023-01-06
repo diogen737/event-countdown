@@ -4,9 +4,8 @@ import { Vibur } from '@next/font/google';
 import Image from 'next/image';
 import type { NextPage } from 'next';
 import dayjs from 'dayjs';
-import { createTheme, ThemeProvider } from '@mui/material';
 
-import { EventConfig, EventType } from '@/model/event-config';
+import { EventColor, EventConfig, EventType } from '@/model/event-config';
 import { LS_EVENT } from '@/model/const/keys';
 
 import styles from '@/styles/Home.module.css';
@@ -27,12 +26,16 @@ const Home: NextPage = () => {
     }
 
     // config from query params
-    const { date: dateQ, name: nameQ, type: typeQ } = query;
-    // console.log({ dateQ, nameQ, typeQ });
+    const { date: dateQ, name: nameQ, type: typeQ, color: colorQ } = query;
     let dateParsed = dayjs(dateQ as string);
     if (typeof nameQ === 'string' && dateParsed.isValid()) {
       return setEventConfig(
-        new EventConfig(nameQ, dateParsed, typeQ as EventType | undefined)
+        new EventConfig(
+          nameQ,
+          dateParsed,
+          typeQ as EventType | undefined,
+          colorQ as EventColor | undefined
+        )
       );
     }
     // config from local storage
@@ -40,12 +43,17 @@ const Home: NextPage = () => {
       date: dateLs,
       name: nameLs,
       type: typeLs,
+      color: colorLs,
     } = JSON.parse(localStorage.getItem(LS_EVENT) || '{}');
-    // console.log({ dateLs, nameLs, typeLs });
     dateParsed = dayjs(dateLs);
     if (typeof nameLs === 'string' && dateParsed.isValid()) {
       return setEventConfig(
-        new EventConfig(nameLs, dateParsed, typeLs as EventType | undefined)
+        new EventConfig(
+          nameLs,
+          dateParsed,
+          typeLs as EventType | undefined,
+          colorLs as EventColor | undefined
+        )
       );
     }
     // default event
@@ -92,113 +100,84 @@ const Home: NextPage = () => {
     return <Loading />;
   }
 
-  const defaultTheme = createTheme();
-  const darkTheme = createTheme({
-    palette: {
-      mode: 'dark',
-      secondary: {
-        main: '#ccc',
-      },
-    },
-    components: {
-      MuiAlert: {
-        styleOverrides: {
-          icon: {
-            alignItems: 'center',
-            padding: 0,
-          },
-          message: {
-            padding: '4px 0 2px 0',
-            fontSize: 10,
-            [defaultTheme.breakpoints.up('sm')]: {
-              fontSize: 12,
-            },
-          },
-        },
-      },
-    },
-  });
-
   return (
-    <ThemeProvider theme={darkTheme}>
-      <div className={styles.container}>
-        <div className={`${styles.cover} ${eventConfig.background.class}`}>
-          <Image
-            src={eventConfig.background.url}
-            priority
-            alt=""
-            fill
-            sizes="100vw"
-            style={{
-              objectFit: 'cover',
-            }}
-          ></Image>
-        </div>
-
-        <EventShare config={eventConfig} />
-        <EventConfigurator config={eventConfig} setState={setEventConfig} />
-
-        <main
-          className={`${styles.main} ${styles[eventConfig.color]} ${
-            vibur.className
-          }`}
-        >
-          <h1 className={styles.title}>
-            <span className={styles.dynamic}>{eventConfig.name}</span>
-            <span className={styles.static}> countdown</span>
-          </h1>
-
-          <div className={styles.countdownContainer}>
-            <div className={`${styles.days} ${styles.item}`}>
-              <span className={styles.digit}>
-                {numberFormatter(timeDiff.days)}
-              </span>
-              <span className={styles.text}>Days</span>
-            </div>
-            <div className={[styles.hours, styles.item].join(' ')}>
-              <span className={styles.digit}>
-                {numberFormatter(timeDiff.hours)}
-              </span>
-              <span className={styles.text}>Hours</span>
-            </div>
-            <div className={[styles.minutes, styles.item].join(' ')}>
-              <span className={styles.digit}>
-                {numberFormatter(timeDiff.minutes)}
-              </span>
-              <span className={styles.text}>Minutes</span>
-            </div>
-            <div className={[styles.seconds, styles.item].join(' ')}>
-              <span className={styles.digit}>
-                {numberFormatter(timeDiff.seconds)}
-              </span>
-              <span className={styles.text}>Seconds</span>
-            </div>
-          </div>
-        </main>
-
-        <footer className={styles.footer}>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by{' '}
-            <span className={styles.logo}>
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                width={72}
-                height={16}
-                style={{
-                  maxWidth: '100%',
-                  height: 'auto',
-                }}
-              />
-            </span>
-          </a>
-        </footer>
+    <div className={styles.container}>
+      <div className={`${styles.cover} ${eventConfig.background.class}`}>
+        <Image
+          src={eventConfig.background.url}
+          priority
+          alt=""
+          fill
+          sizes="100vw"
+          style={{
+            objectFit: 'cover',
+          }}
+        ></Image>
       </div>
-    </ThemeProvider>
+
+      <EventShare config={eventConfig} />
+      <EventConfigurator config={eventConfig} setState={setEventConfig} />
+
+      <main
+        className={`${styles.main} ${styles[eventConfig.color]} ${
+          vibur.className
+        }`}
+      >
+        <h1 className={styles.title}>
+          <span className={styles.dynamic}>{eventConfig.name}</span>
+          <span className={styles.static}> countdown</span>
+        </h1>
+
+        <div className={styles.countdownContainer}>
+          <div className={`${styles.days} ${styles.item}`}>
+            <span className={styles.digit}>
+              {numberFormatter(timeDiff.days)}
+            </span>
+            <span className={styles.text}>Days</span>
+          </div>
+          <div className={[styles.hours, styles.item].join(' ')}>
+            <span className={styles.digit}>
+              {numberFormatter(timeDiff.hours)}
+            </span>
+            <span className={styles.text}>Hours</span>
+          </div>
+          <div className={[styles.minutes, styles.item].join(' ')}>
+            <span className={styles.digit}>
+              {numberFormatter(timeDiff.minutes)}
+            </span>
+            <span className={styles.text}>Minutes</span>
+          </div>
+          <div className={[styles.seconds, styles.item].join(' ')}>
+            <span className={styles.digit}>
+              {numberFormatter(timeDiff.seconds)}
+            </span>
+            <span className={styles.text}>Seconds</span>
+          </div>
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        <a
+          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by{' '}
+          <span className={styles.logo}>
+            <Image
+              src="/vercel.svg"
+              alt="Vercel Logo"
+              width={72}
+              height={16}
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+              }}
+            />
+          </span>
+        </a>
+      </footer>
+    </div>
   );
 };
 
